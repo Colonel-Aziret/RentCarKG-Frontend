@@ -2,6 +2,7 @@ import MainImg from "../images/chooseUs/main.png";
 import Box1 from "../images/chooseUs/icon1.png";
 import Box2 from "../images/chooseUs/icon2.png";
 import Box3 from "../images/chooseUs/icon3.png";
+import React from 'react';
 
 function ChooseUs() {
   return (

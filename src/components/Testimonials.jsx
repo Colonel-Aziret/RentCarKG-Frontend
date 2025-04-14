@@ -1,5 +1,6 @@
 import Img2 from "../images/testimonials/pfp1.jpg";
 import Img3 from "../images/testimonials/pfp2.jpg";
+import React from 'react';
 
 function Testimonials() {
   return (

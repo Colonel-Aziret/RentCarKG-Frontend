@@ -1,6 +1,7 @@
 import SelectCar from "../images/plan/icon1.png";
 import Contact from "../images/plan/icon2.png";
 import Drive from "../images/plan/icon3.png";
+import React from 'react';
 
 function PlanTrip() {
   return (

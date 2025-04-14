@@ -1,6 +1,7 @@
 import { useState } from "react";
 import CarBox from "./CarBox";
 import { CAR_DATA } from "./CarData";
+import React from 'react';
 
 function PickCar() {
   const [active, setActive] = useState("SecondCar");

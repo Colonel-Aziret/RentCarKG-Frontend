@@ -5,6 +5,7 @@ import CarToyota from "../images/cars-big/toyotacamry.jpg";
 import CarBmw from "../images/cars-big/bmw320.jpg";
 import CarMercedes from "../images/cars-big/benz.jpg";
 import CarPassat from "../images/cars-big/passatcc.jpg";
+import React from 'react';
 
 function BookCar() {
   const [modal, setModal] = useState(false); //  class - active-modal

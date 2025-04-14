@@ -1,5 +1,6 @@
 import Footer from "../components/Footer";
 import HeroPages from "../components/HeroPages";
+import React from 'react';
 
 function Contact() {
   return (

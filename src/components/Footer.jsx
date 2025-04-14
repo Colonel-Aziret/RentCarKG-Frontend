@@ -1,3 +1,5 @@
+import React from 'react';
+
 function Footer() {
   return (
     <>
@@ -6,7 +8,7 @@ function Footer() {
           <div className="footer-content">
             <ul className="footer-content__1">
               <li>
-                <span>CAR</span> Rental
+                <span>RentCarKG</span>
               </li>
               <li>
                 We offers a big range of vehicles for all your driving needs. We
@@ -14,7 +16,7 @@ function Footer() {
               </li>
               <li>
                 <a href="tel:123456789">
-                  <i className="fa-solid fa-phone"></i> &nbsp; (123) -456-789
+                  <i className="fa-solid fa-phone"></i> &nbsp; + (996) 990-900-807
                 </a>
               </li>
 
@@ -24,7 +26,7 @@ function Footer() {
                 carrental@gmail.com"
                 >
                   <i className="fa-solid fa-envelope"></i>
-                  &nbsp; carrental@xyz.com
+                  &nbsp; rentcarkg@gmail.com
                 </a>
               </li>
 
@@ -35,7 +37,7 @@ function Footer() {
                   rel="noreferrer"
                   href="https://devrahuls.vercel.app/"
                 >
-                  Design with ❤️ by Rahul
+                  Design with ❤️ by Aziret
                 </a>
               </li>
             </ul>
@@ -61,8 +63,8 @@ function Footer() {
 
             <ul className="footer-content__2">
               <li>Working Hours</li>
-              <li>Mon - Fri: 9:00AM - 9:00PM</li>
-              <li>Sat: 9:00AM - 19:00PM</li>
+              <li>Mon - Fri: 9:00AM - 18:00PM</li>
+              <li>Sat: 9:00AM - 17:00PM</li>
               <li>Sun: Closed</li>
             </ul>
 
