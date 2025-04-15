@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import CarAudi from "../images/cars-big/audia1.jpg";
-import CarGolf from "../images/cars-big/golf6.jpg";
-import CarToyota from "../images/cars-big/toyotacamry.jpg";
-import CarBmw from "../images/cars-big/bmw320.jpg";
-import CarMercedes from "../images/cars-big/benz.jpg";
-import CarPassat from "../images/cars-big/passatcc.jpg";
+import api from "../api/axios"; // Make sure this path is correct
 import React from 'react';
 
 function BookCar() {
-  const [modal, setModal] = useState(false); //  class - active-modal
+  const [modal, setModal] = useState(false);
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // booking car
   const [carType, setCarType] = useState("");
@@ -27,6 +25,32 @@ function BookCar() {
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
   const [zipcode, setZipCode] = useState("");
+
+  // Fetch cars from backend
+  useEffect(() => {
+    const controller = new AbortController(); // для отмены запроса при размонтировании
+
+    const fetchCars = async () => {
+      try {
+        const response = await api.get("/cars", {
+          signal: controller.signal
+        });
+        setCars(response.data);
+      } catch (err) {
+        if (err.name !== 'AbortError') {
+          setError(err.message);
+        }
+      } finally {
+        if (!controller.signal.aborted) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchCars();
+
+    return () => controller.abort(); // отмена запроса при размонтировании
+  }, []); // пустой массив = только при монтировании
 
   // taking value of modal inputs
   const handleName = (e) => {
@@ -91,18 +115,38 @@ function BookCar() {
   }, [modal]);
 
   // confirm modal booking
-  const confirmBooking = (e) => {
+  const confirmBooking = async (e) => {
     e.preventDefault();
-    setModal(!modal);
-    const doneMsg = document.querySelector(".booking-done");
-    doneMsg.style.display = "flex";
+    try {
+      await api.post("/bookings", {
+        carId: cars.find(car => car.name === carType)?._id,
+        pickUp,
+        dropOff,
+        pickTime,
+        dropTime,
+        userInfo: { name, lastName, phone, age, email, address, city, zipcode }
+      });
+      setModal(!modal);
+      const doneMsg = document.querySelector(".booking-done");
+      doneMsg.style.display = "flex";
+    } catch (err) {
+      alert("Booking failed. Please try again.");
+    }
   };
 
   // taking value of booking inputs
   const handleCar = (e) => {
-    setCarType(e.target.value);
-    setCarImg(e.target.value);
-  };
+    const carId = e.target.value;
+    const selectedCar = cars.find(car => car.id.toString() === carId);
+  
+    if (selectedCar) {
+      setCarType(selectedCar.title);
+      setCarImg(selectedCar.imageUrl);
+    } else {
+      setCarType("");
+      setCarImg("");
+    }
+  };  
 
   const handlePick = (e) => {
     setPickUp(e.target.value);
@@ -120,36 +164,14 @@ function BookCar() {
     setDropTime(e.target.value);
   };
 
-  // based on value name show car img
-  let imgUrl;
-  switch (carImg) {
-    case "Audi A1 S-Line":
-      imgUrl = CarAudi;
-      break;
-    case "VW Golf 6":
-      imgUrl = CarGolf;
-      break;
-    case "Toyota Camry":
-      imgUrl = CarToyota;
-      break;
-    case "BMW 320 ModernLine":
-      imgUrl = CarBmw;
-      break;
-    case "Mercedes-Benz GLK":
-      imgUrl = CarMercedes;
-      break;
-    case "VW Passat CC":
-      imgUrl = CarPassat;
-      break;
-    default:
-      imgUrl = "";
-  }
-
   // hide message
   const hideMessage = () => {
     const doneMsg = document.querySelector(".booking-done");
     doneMsg.style.display = "none";
   };
+
+  if (loading) return <div className="loading">Loading cars...</div>;
+  if (error) return <div className="error">Error: {error}</div>;
 
   return (
     <>
@@ -177,34 +199,29 @@ function BookCar() {
               <form className="box-form">
                 <div className="box-form__car-type">
                   <label>
-                    <i className="fa-solid fa-car"></i> &nbsp; Select Your Car
-                    Type <b>*</b>
+                    <i className="fa-solid fa-car"></i> &nbsp; Select Your Car Type <b>*</b>
                   </label>
-                  <select value={carType} onChange={handleCar}>
-                    <option>Select your car type</option>
-                    <option value="Audi A1 S-Line">Audi A1 S-Line</option>
-                    <option value="VW Golf 6">VW Golf 6</option>
-                    <option value="Toyota Camry">Toyota Camry</option>
-                    <option value="BMW 320 ModernLine">
-                      BMW 320 ModernLine
-                    </option>
-                    <option value="Mercedes-Benz GLK">Mercedes-Benz GLK</option>
-                    <option value="VW Passat CC">VW Passat CC</option>
+                  <select value={cars.find(c => c.title === carType)?.id || ""} onChange={handleCar}>
+                    <option value="">Select your car type</option>
+                    {cars.map((car) => (
+                      <option key={car.id} value={car.id}>
+                        {car.brand} {car.model} ({car.year})
+                      </option>
+                    ))}
                   </select>
                 </div>
-
                 <div className="box-form__car-type">
                   <label>
                     <i className="fa-solid fa-location-dot"></i> &nbsp; Pick-up{" "}
                     <b>*</b>
                   </label>
                   <select value={pickUp} onChange={handlePick}>
-                    <option>Select pick up location</option>
-                    <option>Delhi</option>
-                    <option>Kolkata</option>
-                    <option>Bengaluru</option>
-                    <option>Mumbai</option>
-                    <option>Goa</option>
+                    <option value="">Select pick up location</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Bengaluru">Bengaluru</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Goa">Goa</option>
                   </select>
                 </div>
 
@@ -214,12 +231,12 @@ function BookCar() {
                     <b>*</b>
                   </label>
                   <select value={dropOff} onChange={handleDrop}>
-                    <option>Select drop off location</option>
-                    <option>Delhi</option>
-                    <option>Kolkata</option>
-                    <option>Bengaluru</option>
-                    <option>Mumbai</option>
-                    <option>Goa</option>
+                    <option value="">Select drop off location</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Kolkata">Kolkata</option>
+                    <option value="Bengaluru">Bengaluru</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Goa">Goa</option>
                   </select>
                 </div>
 
@@ -331,7 +348,7 @@ function BookCar() {
             <h5>
               <span>Car -</span> {carType}
             </h5>
-            {imgUrl && <img src={imgUrl} alt="car_img" />}
+            {carImg && <img src={carImg} alt="car_img" />}
           </div>
         </div>
         {/* personal info */}
