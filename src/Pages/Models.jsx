@@ -15,8 +15,8 @@ function Models() {
         setLoading(false);
       })
       .catch((err) => {
-        console.error("Ошибка при загрузке автомобилей:", err);
-        setLoading(false);
+        console.error(err);
+        alert(err.response?.data?.message || "Ошибка бронирования. Проверьте данные.");
       });
   }, []);
 
@@ -67,7 +67,7 @@ function Models() {
                         </div>
                         <span style={{
                           textAlign: "right",
-                          paddingRight: "12px", 
+                          paddingRight: "12px",
                           minWidth: "60px"
                         }}>{car.capacity || "5"}</span>
 
