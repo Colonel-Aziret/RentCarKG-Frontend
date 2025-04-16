@@ -18,10 +18,10 @@ const Login = () => {
     try {
       const response = await api.post("/auth/login", form);
       if (rememberMe) {
-        localStorage.setItem('authToken', response.data.token);
+        localStorage.setItem('token', response.data.token); 
       } else {
-        sessionStorage.setItem('authToken', response.data.token);
-      }
+        sessionStorage.setItem('token', response.data.token);
+      }      
       alert("Login successful!");
       navigate("/");
     } catch (err) {
