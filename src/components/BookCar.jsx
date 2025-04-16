@@ -20,11 +20,11 @@ function BookCar() {
   const [name, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
-  const [age, setAge] = useState("");
   const [email, setEmail] = useState("");
+  const [age, setAge] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
-  const [zipcode, setZipCode] = useState("");
+  const [zipcode, setZipCode] = useState("");  
 
   // Fetch cars from backend
   useEffect(() => {
@@ -117,20 +117,33 @@ function BookCar() {
   // confirm modal booking
   const confirmBooking = async (e) => {
     e.preventDefault();
+
     try {
-      await api.post("/bookings", {
-        carId: cars.find(car => car.name === carType)?._id,
-        pickUp,
-        dropOff,
-        pickTime,
-        dropTime,
-        userInfo: { name, lastName, phone, age, email, address, city, zipcode }
-      });
-      setModal(!modal);
-      const doneMsg = document.querySelector(".booking-done");
-      doneMsg.style.display = "flex";
+      const bookingRequest = {
+        carId: cars.find(car => car.title === carType)?.id,
+        pickUpLocationId: Number(pickUp),
+        dropOffLocationId: Number(dropOff),
+        startDate: pickTime,
+        endDate: dropTime,
+        userInfo: {
+          firstName: name,
+          lastName: lastName,
+          phone,
+          email,
+          age: Number(age),
+          address,
+          city,
+          zipcode
+        }
+      };
+
+      await api.post("/bookings", bookingRequest);
+
+      setModal(false);
+      document.querySelector(".booking-done").style.display = "flex";
     } catch (err) {
-      alert("Booking failed. Please try again.");
+      console.error(err);
+      alert("Ошибка бронирования. Проверьте данные и попробуйте снова.");
     }
   };
 
@@ -138,7 +151,7 @@ function BookCar() {
   const handleCar = (e) => {
     const carId = e.target.value;
     const selectedCar = cars.find(car => car.id.toString() === carId);
-  
+
     if (selectedCar) {
       setCarType(selectedCar.title);
       setCarImg(selectedCar.imageUrl);
@@ -146,15 +159,20 @@ function BookCar() {
       setCarType("");
       setCarImg("");
     }
-  };  
-
-  const handlePick = (e) => {
-    setPickUp(e.target.value);
   };
 
-  const handleDrop = (e) => {
-    setDropOff(e.target.value);
-  };
+  // locations
+  const [locations, setLocations] = useState([]);
+
+  useEffect(() => {
+    api.get("/locations")
+      .then((res) => setLocations(res.data))
+      .catch((err) => console.error("Ошибка загрузки локаций", err));
+  }, []);
+
+  const handlePick = (e) => setPickUp(e.target.value);
+
+  const handleDrop = (e) => setDropOff(e.target.value);
 
   const handlePickTime = (e) => {
     setPickTime(e.target.value);
@@ -217,11 +235,11 @@ function BookCar() {
                   </label>
                   <select value={pickUp} onChange={handlePick}>
                     <option value="">Select pick up location</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Kolkata">Kolkata</option>
-                    <option value="Bengaluru">Bengaluru</option>
-                    <option value="Mumbai">Mumbai</option>
-                    <option value="Goa">Goa</option>
+                    {locations.map((loc) => (
+                      <option key={loc.id} value={loc.id}>
+                        {loc.city + ", " + loc.address}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -232,11 +250,11 @@ function BookCar() {
                   </label>
                   <select value={dropOff} onChange={handleDrop}>
                     <option value="">Select drop off location</option>
-                    <option value="Delhi">Delhi</option>
-                    <option value="Kolkata">Kolkata</option>
-                    <option value="Bengaluru">Bengaluru</option>
-                    <option value="Mumbai">Mumbai</option>
-                    <option value="Goa">Goa</option>
+                    {locations.map((loc) => (
+                      <option key={loc.id} value={loc.id}>
+                        {loc.city + ", " + loc.address}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -329,7 +347,7 @@ function BookCar() {
                 <i className="fa-solid fa-calendar-days"></i>
                 <div>
                   <h6>Pick-Up Location</h6>
-                  <p>{pickUp}</p>
+                  <p>{locations.find(loc => loc.id.toString() === pickUp)?.city}</p>
                 </div>
               </span>
             </div>
@@ -339,7 +357,7 @@ function BookCar() {
                 <i className="fa-solid fa-calendar-days"></i>
                 <div>
                   <h6>Drop-Off Location</h6>
-                  <p>{dropOff}</p>
+                  <p>{locations.find(loc => loc.id.toString() === dropOff)?.city}</p>
                 </div>
               </span>
             </div>
