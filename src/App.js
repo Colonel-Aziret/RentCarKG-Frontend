@@ -9,6 +9,9 @@ import Team from "./Pages/Team";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import ConfirmBooking from "./Pages/ConfirmBooking";
+import OwnerRequests from "./Pages/OwnerRequests";
+import MyBookings from "./Pages/MyBookings";
 import React from 'react';
 
 function App() {
@@ -24,6 +27,9 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/owner-requests" element={<OwnerRequests />} />
+        <Route path="/confirm-booking" element={<ConfirmBooking />} />
+        <Route path="/my-bookings" element={<MyBookings />} />
       </Routes>
     </>
   );
