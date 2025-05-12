@@ -49,7 +49,7 @@ const MyBookings = () => {
                             <p><strong>Car:</strong> {booking.carBrand} {booking.carModel}</p>
                             <p><strong>Dates:</strong> {booking.startDate} – {booking.endDate}</p>
                             <p><strong>Status:</strong> <span className="font-semibold">{booking.status}</span></p>
-                            <p><strong>Price:</strong> ${booking.totalPrice}</p>
+                            <p><strong>Price:</strong> {booking.totalPrice} som</p>
                             <p><strong>Locations:</strong> {booking.pickUpLocation} → {booking.dropOffLocation}</p>
 
                             {booking.status === "PENDING" && (

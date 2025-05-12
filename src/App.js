@@ -9,6 +9,8 @@ import Team from "./Pages/Team";
 import Contact from "./Pages/Contact";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import ForgotPassword from "./Pages/ForgotPassword";
+import ResetPassword from "./Pages/ResetPassword";
 import ConfirmBooking from "./Pages/ConfirmBooking";
 import OwnerRequests from "./Pages/OwnerRequests";
 import MyBookings from "./Pages/MyBookings";
@@ -27,6 +29,8 @@ function App() {
         <Route path="contact" element={<Contact />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/owner-requests" element={<OwnerRequests />} />
         <Route path="/confirm-booking" element={<ConfirmBooking />} />
         <Route path="/my-bookings" element={<MyBookings />} />

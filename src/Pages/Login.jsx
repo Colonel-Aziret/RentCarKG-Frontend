@@ -22,10 +22,19 @@ const Login = () => {
       } else {
         sessionStorage.setItem('token', response.data.token);
       }      
+      api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+      console.log("JWT токен:", response.data.token);
       alert("Login successful!");
       navigate("/");
     } catch (err) {
-      alert("Login failed. Please check your credentials.");
+      if (err.response?.status === 401) {
+        // Если токен истёк, удаляем его и предлагаем войти заново
+        localStorage.removeItem('token');
+        sessionStorage.removeItem('token');
+        alert("Your session has expired. Please log in again.");
+      } else {
+        alert("Login failed. Please check your credentials.");
+      }
     }
   };
 

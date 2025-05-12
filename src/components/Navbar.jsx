@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Logo from "../images/logo/logo.png";
+import Logo from "../images/logo/logo1.png";
 import { useState } from "react";
 import React from 'react';
 
@@ -94,6 +94,12 @@ function Navbar() {
               {" "}
               <Link className="contact-link" to="/contact">
                 Contact
+              </Link>
+            </li>
+            <li>
+              {" "}
+              <Link className="owner-link" to="/owner-requests">
+                Confirm Bookings
               </Link>
             </li>
           </ul>
