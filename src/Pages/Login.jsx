@@ -17,27 +17,27 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post("/auth/login", form);
-      if (rememberMe) {
-        localStorage.setItem('token', response.data.token); 
-      } else {
-        sessionStorage.setItem('token', response.data.token);
-      }      
+  
+      const storage = rememberMe ? localStorage : sessionStorage;
+      storage.setItem('token', response.data.token);
+      storage.setItem('refreshToken', response.data.refreshToken);
+  
       api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
-      console.log("JWT токен:", response.data.token);
+  
+      // Устанавливаем заголовок авторизации для всех запросов
+      api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+  
       alert("Login successful!");
       navigate("/");
     } catch (err) {
       if (err.response?.status === 401) {
-        // Если токен истёк, удаляем его и предлагаем войти заново
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
-        alert("Your session has expired. Please log in again.");
+        alert("Invalid credentials");
       } else {
-        alert("Login failed. Please check your credentials.");
+        alert("Login failed. Please try again.");
       }
     }
   };
-
+  
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8f4f3] px-4 py-12">
       <div className="mb-10 text-center">
