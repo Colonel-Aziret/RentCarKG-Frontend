@@ -12,26 +12,26 @@ const ResetPassword = () => {
     e.preventDefault();
     try {
       await api.post(`/auth/reset-password?token=${token}&newPassword=${password}`);
-      setMsg("Пароль успешно изменён");
+      setMsg("Password successfully changed");
     } catch (err) {
-      setMsg("Ошибка сброса пароля");
+      setMsg("Error resetting password");
     }
   };
 
   return (
     <div className="max-w-md mx-auto mt-20 p-6 bg-white rounded shadow">
-      <h2 className="text-2xl font-bold mb-4">Сброс пароля</h2>
+      <h2 className="text-2xl font-bold mb-4">Reset Password</h2>
       <form onSubmit={handleSubmit}>
         <input
           type="password"
           className="w-full p-2 border rounded mb-4"
-          placeholder="Новый пароль"
+          placeholder="New Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
         />
         <button className="w-full bg-green-600 text-white p-2 rounded">
-          Сбросить пароль
+          Reset Password
         </button>
       </form>
       {msg && <p className="mt-4 text-center text-sm">{msg}</p>}

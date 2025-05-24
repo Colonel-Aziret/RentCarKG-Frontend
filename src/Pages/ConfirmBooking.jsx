@@ -13,7 +13,7 @@ const ConfirmBooking = () => {
         await api.patch(`/bookings/${bookingId}/email-confirm`);
         setStatus("success");
       } catch (err) {
-        setStatus("error");
+        setStatus("error")
       }
     };
 

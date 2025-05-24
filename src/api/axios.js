@@ -16,25 +16,39 @@ api.interceptors.request.use(config => {
 });
 
 api.interceptors.response.use(
-  (response) => response,
-  async (error) => {
+  response => response,
+  async error => {
     const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    
+    if (error.response?.status === 403 && !originalRequest._retry) {
       originalRequest._retry = true;
-      const refreshToken = localStorage.getItem('refreshToken');
+      
+      const refreshToken = localStorage.getItem('refreshToken') || 
+                         sessionStorage.getItem('refreshToken');
+      
       if (refreshToken) {
         try {
           const refreshResponse = await api.post("/auth/refresh-token", { refreshToken });
-          const newToken = refreshResponse.data.token;
-          localStorage.setItem('token', newToken);
-          api.defaults.headers.common["Authorization"] = `Bearer ${newToken}`;
-          return api(originalRequest); // Повторяем исходный запрос с новым токеном
+          const { token, refreshToken: newRefreshToken } = refreshResponse.data;
+          
+          const storage = localStorage.getItem('refreshToken') ? localStorage : sessionStorage;
+          storage.setItem('token', token);
+          storage.setItem('refreshToken', newRefreshToken);
+          
+          api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+          originalRequest.headers["Authorization"] = `Bearer ${token}`;
+          
+          return api(originalRequest);
         } catch (refreshError) {
-          // Если refreshToken невалиден, разлогиниваем
+          // Очистка и редирект
           localStorage.removeItem('token');
           localStorage.removeItem('refreshToken');
-          window.location.href = "/login"; // Принудительный редирект
+          sessionStorage.removeItem('token');
+          sessionStorage.removeItem('refreshToken');
+          window.location.href = "/login";
         }
+      } else {
+        window.location.href = "/login";
       }
     }
     return Promise.reject(error);
