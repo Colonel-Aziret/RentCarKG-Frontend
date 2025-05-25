@@ -23,7 +23,7 @@
 
 ### 🔹 Backend
 
-- Java 17
+- Java 23
 - Spring Boot 3
 - Spring Security (JWT, OAuth2)
 - Spring Data JPA
@@ -52,7 +52,7 @@
 
 ### 1. Backend
 
-> Требуется: Java 17, PostgreSQL
+> Требуется: Java 23, PostgreSQL
 
 ```bash
 git clone https://github.com/Colonel-Aziret/RentCarKG.git
@@ -111,6 +111,13 @@ npm start
 ## 📁 ER-диаграмма
 
 Смотри файл `er-diagram.jpg` в корне репозитория.
+
+---
+
+## 🌐 Демо
+
+Проект доступен онлайн по адресу:  
+👉 [rentcarkg.netlify.app](https://rentcarkg.netlify.app/)
 
 ---
 
