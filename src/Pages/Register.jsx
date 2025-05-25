@@ -2,11 +2,13 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useAuth } from '../components/AuthContext';
 
 const Register = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '', role: 'CLIENT' });
   const [showPassword, setShowPassword] = useState(false);
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -15,7 +17,8 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await api.post("/auth/register", form);
+      const response = await api.post("/auth/register", form);
+      login(response.data.token);
       alert("Registration successful!");
       navigate("/login");
     } catch (err) {
@@ -66,16 +69,16 @@ const Register = () => {
               />
               <div className="absolute inset-y-0 right-5 flex items-center cursor-pointer">
                 {showPassword ? (
-                  <FiEyeOff 
-                    onClick={() => setShowPassword(false)} 
-                    className="text-gray-500 hover:text-gray-700" 
-                    size={28} 
+                  <FiEyeOff
+                    onClick={() => setShowPassword(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                    size={28}
                   />
                 ) : (
-                  <FiEye 
-                    onClick={() => setShowPassword(true)} 
-                    className="text-gray-500 hover:text-gray-700" 
-                    size={28} 
+                  <FiEye
+                    onClick={() => setShowPassword(true)}
+                    className="text-gray-500 hover:text-gray-700"
+                    size={28}
                   />
                 )}
               </div>

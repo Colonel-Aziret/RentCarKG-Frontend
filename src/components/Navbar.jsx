@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
 import Logo from "../images/logo/logo.png";
 import { useState } from "react";
+import { useAuth } from "./AuthContext";
 import React from 'react';
 
 function Navbar() {
+  const { isLoggedIn, logout } = useAuth();
   const [nav, setNav] = useState(false);
 
   const openNav = () => {
@@ -96,22 +98,26 @@ function Navbar() {
                 Contact
               </Link>
             </li>
-            <li>
-              {" "}
-              <Link className="owner-link" to="/owner-requests">
-                Confirm Bookings
-              </Link>
-            </li>
+            {isLoggedIn && (
+              <li>
+                <Link className="owner-link" to="/owner-requests">
+                  Confirm Bookings
+                </Link>
+              </li>
+            )}
           </ul>
           <div className="navbar__buttons">
-            <Link className="navbar__buttons__sign-in" to="/login">
-              Sign In
-            </Link>
-            <Link className="navbar__buttons__register" to="/register">
-              Register
-            </Link>
+            {isLoggedIn ? (
+              <button onClick={logout} className="navbar__buttons__sign-in">
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link className="navbar__buttons__sign-in" to="/login">Sign In</Link>
+                <Link className="navbar__buttons__register" to="/register">Register</Link>
+              </>
+            )}
           </div>
-
           {/* mobile */}
           <div className="mobile-hamb" onClick={openNav}>
             <i className="fa-solid fa-bars"></i>

@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useAuth } from '../components/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,16 +19,16 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post("/auth/login", form);
-  
+      login(response.data.token);
       const storage = rememberMe ? localStorage : sessionStorage;
       storage.setItem('token', response.data.token);
       storage.setItem('refreshToken', response.data.refreshToken);
-  
+
       api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
-  
+
       // Устанавливаем заголовок авторизации для всех запросов
       api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
-  
+
       alert("Login successful!");
       navigate("/");
     } catch (err) {
@@ -37,7 +39,7 @@ const Login = () => {
       }
     }
   };
-  
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#f8f4f3] px-4 py-12">
       <div className="mb-10 text-center">
@@ -81,16 +83,16 @@ const Login = () => {
               />
               <div className="absolute inset-y-0 right-5 flex items-center cursor-pointer">
                 {showPassword ? (
-                  <FiEyeOff 
-                    onClick={() => setShowPassword(false)} 
-                    className="text-gray-500 hover:text-gray-700" 
-                    size={28} 
+                  <FiEyeOff
+                    onClick={() => setShowPassword(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                    size={28}
                   />
                 ) : (
-                  <FiEye 
-                    onClick={() => setShowPassword(true)} 
-                    className="text-gray-500 hover:text-gray-700" 
-                    size={28} 
+                  <FiEye
+                    onClick={() => setShowPassword(true)}
+                    className="text-gray-500 hover:text-gray-700"
+                    size={28}
                   />
                 )}
               </div>
