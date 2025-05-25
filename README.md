@@ -1,84 +1,133 @@
-<div align='center'><img style="width:30%" src='https://user-images.githubusercontent.com/105128267/218077760-5694a4ac-4e37-4de7-b31f-268ccd27400a.png'/></div>
+<div align='center'>
+  <img src='https://github.com/Colonel-Aziret/RentCarKG-Frontend/blob/912bbe1bd97c3803e029f5d2871d8415c2f5699b/logo.png' width="300"/>
+</div>
 
-# About the project
+# RentCarKG — Сервис аренды автомобилей в Кыргызстане
 
-  <p>A <b>car rental</b> website is an online platform that allows users to rent cars for personal or business use. The website provides an easy-to-use interface for searching, comparing, and reserving cars from a wide selection of vehicles that vary in make, model, size, and price.</p>
+**RentCarKG** — это веб-приложение, разработанное в рамках дипломного проекта, целью которого является упрощение и автоматизация процесса аренды автомобилей в Кыргызстане. Платформа позволяет пользователям арендовать авто онлайн, а владельцам автомобилей — размещать свои машины и получать доход.
 
-<h3>Build with:</h3>
+---
 
-» Sass / Scss <br>
-» React JS
+## 🔎 Назначение проекта
 
+- Упрощение поиска и бронирования автомобилей для туристов, жителей и компаний;
+- Возможность владельцам автомобилей сдавать их в аренду;
+- Поддержка ролей: клиент, владелец, администратор;
+- Многоязычный интерфейс: кыргызский, русский, английский;
+- Уведомления по email о ключевых действиях (бронирование, отмена, подтверждение);
+- Безопасность: JWT, OAuth2, разграничение прав.
 
+---
 
-# React Project Setup
+## ⚙️ Используемые технологии
 
-This guide provides instructions to set up and run a React project on your local machine. The project also includes Sass as a dependency for styling.
+### 🔹 Backend
 
-## Prerequisites
+- Java 23
+- Spring Boot 3
+- Spring Security (JWT, OAuth2)
+- Spring Data JPA
+- PostgreSQL
+- Flyway (миграции)
+- SMTP (email-уведомления)
 
-Before you begin, ensure that you have the following installed on your machine:
+### 🔹 Frontend
 
--   Node.js (v12 or later)
--   npm (Node Package Manager, comes with Node.js)
+- React
+- JavaScript
+- Tailwind CSS
+- React Router
+- Context API
 
-## Installation
+### 🔹 Прочее
 
-1.  Clone the project repository to your local machine using Git:
-    ```
-     git clone <repository_url>` 
-    ```
-2.  Navigate to the project directory:
-    
-    ```
-     cd <project_directory>
-    ``` 
-    
-3.  Install project dependencies by running the following command:
-    
-    ``` 
-     npm install
-    ```  
-    
+- REST API (Spring Web)
+- Swagger / OpenAPI
+- Docker (в планах)
+- Mailtrap (SMTP-тестирование)
 
-## Usage
+---
 
-To run the React project locally, follow these steps:
+## 📦 Как запустить проект
 
-1.  Start the development server:
+### 1. Backend
 
-    ``` 
-     npm start 
-    ``` 
-    This command will compile the project and start a local development server.
-    
-2.  Open your web browser and visit `http://localhost:3000`. The React application should be up and running.
-    
+> Требуется: Java 23, PostgreSQL
 
-## Styling with Sass
-
-This project uses Sass as a preprocessor for CSS. Sass files are located in the `src/styles/styles.sccs` directory. To compile Sass into CSS, follow these steps:
-
-1.  Run the following command in your project directory:
-    
+```bash
+git clone https://github.com/Colonel-Aziret/RentCarKG.git
+cd RentCarKG
 ```
- npm run build-css
-``` 
 
+Настрой `application.properties`:
 
-This command will compile Sass files and generate corresponding CSS files in the `src/styles/styles.sccs` directory.
-    
-2.  Link the generated CSS files in your React components to apply the styles.
-    
+```properties
+spring.datasource.url=jdbc:postgresql://localhost:5432/rentcarkg
+spring.datasource.username=postgres
+spring.datasource.password=your_password
+```
 
-## Additional Scripts
+Затем:
 
-The project includes additional scripts that you can run using the `npm run` command:
+```bash
+./mvnw spring-boot:run
+```
 
--   `test`: Run tests for the project.
--   `build`: Build the project for production.
--   `eject`: Eject the project configuration from create-react-app.
+### 2. Frontend
 
-## Conclusion
+> Требуется: Node.js
 
-You should now have the React project set up on your local machine. Feel free to explore and modify the code to meet your requirements. If you encounter any issues, please refer to the project's documentation or seek support from the project's maintainers.
+```bash
+cd frontend
+npm install
+npm start
+```
+
+---
+
+## 🧪 Реализованные возможности
+
+- Регистрация / вход (в том числе через Google)
+- Фильтрация автомобилей (бренд, цена, трансмиссия)
+- Подтверждение бронирований владельцем
+- Отмена бронирований с учетом штрафа
+- Панель администратора (просмотр пользователей и ролей)
+- Email-уведомления на всех этапах
+- Многоязычная поддержка (KY / RU / EN)
+- Контроль доступа на основе ролей
+
+---
+
+## 🚧 Будущие доработки
+
+- Подключение онлайн-оплаты
+- Мобильная версия (PWA / React Native)
+- Интеграция с Telegram / WhatsApp
+- Уведомления в реальном времени (WebSocket)
+- Аналитика и отчётность для владельцев
+
+---
+
+## 📁 ER-диаграмма
+
+Смотри файл `er-diagram.jpg` в корне репозитория.
+
+---
+
+## 🌐 Демо
+
+Проект доступен онлайн по адресу:  
+👉 [rentcarkg.netlify.app](https://rentcarkg.netlify.app/)
+
+---
+
+## 🧑‍💻 Автор
+
+- **Разработчик:** Азирет Раманкулов (Aziret Ramankulov)  
+- **Научный руководитель:** Dr. Tauheed Khan  
+- **Университет:** Ala-Too International University  
+- **Email:** aziret.ramankulov.dev@gmail.com
+
+---
+
+Проект создан в рамках дипломной работы, направленной на цифровизацию и автоматизацию локального рынка аренды автомобилей.
