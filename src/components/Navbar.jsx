@@ -108,7 +108,7 @@ function Navbar() {
           </ul>
           <div className="navbar__buttons">
             {isLoggedIn ? (
-              <button onClick={logout} className="navbar__buttons__sign-in">
+              <button onClick={logout} className="navbar__buttons__sign-in mr-4">
                 Logout
               </button>
             ) : (
