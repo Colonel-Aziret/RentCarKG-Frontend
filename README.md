@@ -1,5 +1,5 @@
 <div align='center'>
-  <img src='https://user-images.githubusercontent.com/105128267/218077760-5694a4ac-4e37-4de7-b31f-268ccd27400a.png' width="300"/>
+  <img src='https://github.com/Colonel-Aziret/RentCarKG-Frontend/blob/912bbe1bd97c3803e029f5d2871d8415c2f5699b/logo.png' width="300"/>
 </div>
 
 # RentCarKG — Сервис аренды автомобилей в Кыргызстане
