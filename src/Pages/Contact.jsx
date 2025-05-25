@@ -21,7 +21,7 @@ function Contact() {
             email,
             message
           }, {
-            withCredentials: true // 👈 обязательно
+            withCredentials: true
           });
 
           alert("Message sent successfully!");
@@ -46,12 +46,15 @@ function Contact() {
                 A multifaceted professional skilled in multiple fields of
                 research, development as well as a learning specialist.
               </p>
-              <a href="/">
+              <a href="tel:+ (996) 990-900-807">
                 <i className="fa-solid fa-phone"></i>&nbsp; + (996) 990-90-08-07
               </a>
-              <a href="/">
+              <a
+                  href="mailto: 
+                rentcarkg@gmail.com"
+                >
                 <i className="fa-solid fa-envelope"></i>&nbsp;
-                aziret5265@gmail.com
+                rentcarkg@gmail.com
               </a>
               <a href="/">
                 <i className="fa-solid fa-location-dot"></i>&nbsp; Bishkek,
