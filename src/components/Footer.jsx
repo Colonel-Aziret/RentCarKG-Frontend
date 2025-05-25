@@ -15,7 +15,7 @@ function Footer() {
                 have the perfect car to meet your needs.
               </li>
               <li>
-                <a href="tel:123456789">
+                <a href="tel:+ (996) 990-900-807">
                   <i className="fa-solid fa-phone"></i> &nbsp; + (996) 990-900-807
                 </a>
               </li>
@@ -23,7 +23,7 @@ function Footer() {
               <li>
                 <a
                   href="mailto: 
-                carrental@gmail.com"
+                rentcarkg@gmail.com"
                 >
                   <i className="fa-solid fa-envelope"></i>
                   &nbsp; rentcarkg@gmail.com
