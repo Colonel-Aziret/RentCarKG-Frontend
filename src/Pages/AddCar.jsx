@@ -29,8 +29,6 @@ const AddCar = () => {
     e.preventDefault();
 
     const ownerEmail = localStorage.getItem("email"); // или получить из контекста, если доступно
-    if (!ownerEmail) return alert("Not authorized");
-
     const formData = new FormData();
     formData.append("car", new Blob([JSON.stringify(car)], { type: "application/json" }));
     formData.append("image", image);
@@ -54,29 +52,45 @@ const AddCar = () => {
     }
   };
 
-  return (
-    <div className="p-8 max-w-2xl mx-auto">
-      <h2 className="text-3xl font-bold mb-6">Add New Car</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
+return (
+  <div className="min-h-screen flex justify-center items-center bg-[#f9f9f9] py-10 px-4">
+    <div className="w-full max-w-3xl bg-white rounded-2xl shadow-lg p-10">
+      <h2 className="text-3xl font-bold mb-8 text-center text-gray-800">Add New Car</h2>
+      <form onSubmit={handleSubmit} className="space-y-5">
         {["brand", "model", "year", "color", "capacity", "fuelType", "transmission", "pricePerDay", "description"].map((field) => (
           <input
             key={field}
             type="text"
             name={field}
-            placeholder={field}
+            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
             value={car[field]}
             onChange={handleChange}
-            className="w-full p-3 border border-gray-300 rounded"
+            className="w-full border border-gray-300 rounded-lg p-4 text-lg focus:outline-none focus:ring-2 focus:ring-red-400"
             required
           />
         ))}
-        <input type="file" accept="image/*" onChange={handleFileChange} required />
-        <button type="submit" className="bg-red-500 text-white px-6 py-3 rounded hover:bg-red-700">
+
+        <div>
+          <label className="block text-gray-700 font-medium mb-2">Car Image</label>
+          <input
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
+            className="w-full text-gray-700 border border-gray-300 rounded-lg p-3 bg-white"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-[#f84525] text-white py-4 rounded-xl text-lg font-semibold hover:bg-red-600 transition"
+        >
           Add Car
         </button>
       </form>
     </div>
-  );
-};
+  </div>
+);
+}
 
 export default AddCar;
