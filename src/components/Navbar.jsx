@@ -1,10 +1,13 @@
 import { Link } from "react-router-dom";
 import Logo from "../images/logo/logo.png";
 import { useState } from "react";
+import { useAuth } from "./AuthContext";
 import React from 'react';
 
 function Navbar() {
+  const { isLoggedIn, logout } = useAuth();
   const [nav, setNav] = useState(false);
+  const role = localStorage.getItem("role") || sessionStorage.getItem("role");
 
   const openNav = () => {
     setNav(!nav);
@@ -96,16 +99,41 @@ function Navbar() {
                 Contact
               </Link>
             </li>
+            {isLoggedIn && role === 'OWNER' && (
+              <li>
+                <Link className="owner-link" to="/owner-requests">
+                  Confirm Bookings
+                </Link>
+              </li>
+            )}
+
+            {isLoggedIn && role === 'CLIENT' && (
+              <li>
+                <Link className="owner-link" to="/my-bookings">
+                  My Bookings
+                </Link>
+              </li>
+            )}
+            {isLoggedIn && role === 'OWNER' && (
+              <li>
+                <Link className="owner-link" to="/add-car">
+                  Rent a Car
+                </Link>
+              </li>
+            )}
           </ul>
           <div className="navbar__buttons">
-            <Link className="navbar__buttons__sign-in" to="/login">
-              Sign In
-            </Link>
-            <Link className="navbar__buttons__register" to="/register">
-              Register
-            </Link>
+            {isLoggedIn ? (
+              <button onClick={logout} className="navbar__buttons__sign-in mr-4">
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link className="navbar__buttons__sign-in" to="/login">Sign In</Link>
+                <Link className="navbar__buttons__register" to="/register">Register</Link>
+              </>
+            )}
           </div>
-
           {/* mobile */}
           <div className="mobile-hamb" onClick={openNav}>
             <i className="fa-solid fa-bars"></i>

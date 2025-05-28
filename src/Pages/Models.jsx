@@ -50,7 +50,7 @@ function Models() {
                           </span>
                         </div>
                         <div className="models-div__box__descr__name-price__price">
-                          <h4>${car.pricePerDay}</h4>
+                          <h4>{car.pricePerDay} som</h4>
                           <p>per day</p>
                         </div>
                       </div>

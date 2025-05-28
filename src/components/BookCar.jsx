@@ -24,7 +24,7 @@ function BookCar() {
   const [age, setAge] = useState("");
   const [address, setAddress] = useState("");
   const [city, setCity] = useState("");
-  const [zipcode, setZipCode] = useState("");  
+  const [zipcode, setZipCode] = useState("");
 
   // Fetch cars from backend
   useEffect(() => {
@@ -366,7 +366,16 @@ function BookCar() {
             <h5>
               <span>Car -</span> {carType}
             </h5>
-            {carImg && <img src={carImg} alt="car_img" />}
+            {carImg && (
+              <img
+                src={`http://localhost:8080/static/images/${carImg.split('/').pop()}`}
+                alt="Car"
+                onError={(e) => {
+                  e.target.src = "/images/cars-big/default-car.png";
+                }}
+                className="w-full h-auto rounded"
+              />
+            )}
           </div>
         </div>
         {/* personal info */}

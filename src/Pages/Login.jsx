@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import { useAuth } from '../components/AuthContext';
 
 const Login = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const { login } = useAuth();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -17,15 +19,26 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post("/auth/login", form);
-      if (rememberMe) {
-        localStorage.setItem('token', response.data.token); 
-      } else {
-        sessionStorage.setItem('token', response.data.token);
-      }      
+      login(response.data.token, response.data.role, response.data.email);
+      const storage = rememberMe ? localStorage : sessionStorage;
+      storage.setItem('token', response.data.token);
+      storage.setItem('refreshToken', response.data.refreshToken);
+      storage.setItem('email', form.email);
+      storage.setItem('role', response.data.role);
+
+      api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+
+      // Устанавливаем заголовок авторизации для всех запросов
+      api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
+
       alert("Login successful!");
       navigate("/");
     } catch (err) {
-      alert("Login failed. Please check your credentials.");
+      if (err.response?.status === 401) {
+        alert("Invalid credentials");
+      } else {
+        alert("Login failed. Please try again.");
+      }
     }
   };
 
@@ -72,16 +85,16 @@ const Login = () => {
               />
               <div className="absolute inset-y-0 right-5 flex items-center cursor-pointer">
                 {showPassword ? (
-                  <FiEyeOff 
-                    onClick={() => setShowPassword(false)} 
-                    className="text-gray-500 hover:text-gray-700" 
-                    size={28} 
+                  <FiEyeOff
+                    onClick={() => setShowPassword(false)}
+                    className="text-gray-500 hover:text-gray-700"
+                    size={28}
                   />
                 ) : (
-                  <FiEye 
-                    onClick={() => setShowPassword(true)} 
-                    className="text-gray-500 hover:text-gray-700" 
-                    size={28} 
+                  <FiEye
+                    onClick={() => setShowPassword(true)}
+                    className="text-gray-500 hover:text-gray-700"
+                    size={28}
                   />
                 )}
               </div>

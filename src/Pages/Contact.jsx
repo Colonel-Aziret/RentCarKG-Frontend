@@ -1,8 +1,39 @@
+import React, { useEffect } from 'react';
+import axios from 'axios';
 import Footer from "../components/Footer";
 import HeroPages from "../components/HeroPages";
-import React from 'react';
 
 function Contact() {
+  useEffect(() => {
+    const form = document.querySelector(".contact-div__form form");
+
+    if (form) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const fullName = form.querySelector('input[name="fullName"]').value;
+        const email = form.querySelector('input[name="email"]').value;
+        const message = form.querySelector('textarea[name="message"]').value;
+
+        try {
+          await axios.post("http://localhost:8080/api/email/contact", {
+            fullName,
+            email,
+            message
+          }, {
+            withCredentials: true
+          });
+
+          alert("Message sent successfully!");
+          form.reset();
+        } catch (err) {
+          console.error(err);
+          alert("Failed to send message.");
+        }
+      });
+    }
+  }, []);
+
   return (
     <>
       <section className="contact-page">
@@ -13,19 +44,21 @@ function Contact() {
               <h2>Need additional information?</h2>
               <p>
                 A multifaceted professional skilled in multiple fields of
-                research, development as well as a learning specialist. Over 15
-                years of experience.
+                research, development as well as a learning specialist.
               </p>
-              <a href="/">
-                <i className="fa-solid fa-phone"></i>&nbsp; (123) 456-7869
+              <a href="tel:+ (996) 990-900-807">
+                <i className="fa-solid fa-phone"></i>&nbsp; + (996) 990-90-08-07
               </a>
-              <a href="/">
+              <a
+                  href="mailto: 
+                rentcarkg@gmail.com"
+                >
                 <i className="fa-solid fa-envelope"></i>&nbsp;
-                carrental@xyz.com
+                rentcarkg@gmail.com
               </a>
               <a href="/">
-                <i className="fa-solid fa-location-dot"></i>&nbsp; Bengaluru,
-                Karnatka
+                <i className="fa-solid fa-location-dot"></i>&nbsp; Bishkek,
+                Kyrgyzstan
               </a>
             </div>
             <div className="contact-div__form">
@@ -33,17 +66,17 @@ function Contact() {
                 <label>
                   Full Name <b>*</b>
                 </label>
-                <input type="text" placeholder='E.g: "Joe Shmoe"'></input>
+                <input name="fullName" type="text" placeholder='E.g: "Joe Shmoe"' />
 
                 <label>
                   Email <b>*</b>
                 </label>
-                <input type="email" placeholder="youremail@example.com"></input>
+                <input name="email" type="email" placeholder="youremail@example.com" />
 
                 <label>
                   Tell us about it <b>*</b>
                 </label>
-                <textarea placeholder="Write Here.."></textarea>
+                <textarea name="message" placeholder="Write Here.."></textarea>
 
                 <button type="submit">
                   <i className="fa-solid fa-envelope-open-text"></i>&nbsp; Send
@@ -60,7 +93,7 @@ function Contact() {
               <h2>Book a car by getting in touch with us</h2>
               <span>
                 <i className="fa-solid fa-phone"></i>
-                <h3>(123) 456-7869</h3>
+                <h3>+ (996) 990-90-08-07</h3>
               </span>
             </div>
           </div>
