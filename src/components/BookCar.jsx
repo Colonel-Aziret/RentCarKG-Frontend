@@ -368,7 +368,7 @@ function BookCar() {
             </h5>
             {carImg && (
               <img
-                src={`http://localhost:8080/static/images/${carImg.split('/').pop()}`}
+                src={`https://rentcarkg.live/static/images/${carImg.split('/').pop()}`}
                 alt="Car"
                 onError={(e) => {
                   e.target.src = "/images/cars-big/default-car.png";
