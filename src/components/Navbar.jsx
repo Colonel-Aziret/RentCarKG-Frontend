@@ -105,6 +105,13 @@ function Navbar() {
                 </Link>
               </li>
             )}
+            {isLoggedIn && (
+              <li>
+                <Link className="rent-link" to="/add-car">
+                  Rent a Car
+                </Link>
+              </li>
+            )}
           </ul>
           <div className="navbar__buttons">
             {isLoggedIn ? (

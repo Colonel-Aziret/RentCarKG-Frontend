@@ -14,6 +14,7 @@ import ResetPassword from "./Pages/ResetPassword";
 import ConfirmBooking from "./Pages/ConfirmBooking";
 import OwnerRequests from "./Pages/OwnerRequests";
 import MyBookings from "./Pages/MyBookings";
+import AddCar from "./Pages/AddCar";
 import React from 'react';
 
 function App() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/owner-requests" element={<OwnerRequests />} />
         <Route path="/confirm-booking" element={<ConfirmBooking />} />
         <Route path="/my-bookings" element={<MyBookings />} />
+        <Route path="/add-car" element={<AddCar />} />
       </Routes>
     </>
   );
