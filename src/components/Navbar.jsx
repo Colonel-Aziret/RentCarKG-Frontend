@@ -7,6 +7,7 @@ import React from 'react';
 function Navbar() {
   const { isLoggedIn, logout } = useAuth();
   const [nav, setNav] = useState(false);
+  const role = localStorage.getItem("role") || sessionStorage.getItem("role");
 
   const openNav = () => {
     setNav(!nav);
@@ -98,16 +99,24 @@ function Navbar() {
                 Contact
               </Link>
             </li>
-            {isLoggedIn && (
+            {isLoggedIn && role === 'OWNER' && (
               <li>
                 <Link className="owner-link" to="/owner-requests">
                   Confirm Bookings
                 </Link>
               </li>
             )}
-            {isLoggedIn && (
+
+            {isLoggedIn && role === 'CLIENT' && (
               <li>
-                <Link className="rent-link" to="/add-car">
+                <Link className="owner-link" to="/my-bookings">
+                  My Bookings
+                </Link>
+              </li>
+            )}
+            {isLoggedIn && role === 'OWNER' && (
+              <li>
+                <Link className="owner-link" to="/add-car">
                   Rent a Car
                 </Link>
               </li>
