@@ -19,10 +19,12 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await api.post("/auth/login", form);
-      login(response.data.token);
+      login(response.data.token, response.data.role, response.data.email);
       const storage = rememberMe ? localStorage : sessionStorage;
       storage.setItem('token', response.data.token);
       storage.setItem('refreshToken', response.data.refreshToken);
+      storage.setItem('email', form.email);
+      storage.setItem('role', response.data.role);
 
       api.defaults.headers.common["Authorization"] = `Bearer ${response.data.token}`;
 
