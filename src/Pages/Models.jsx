@@ -33,7 +33,7 @@ function Models() {
                 <div className="models-div__box" key={car.id}>
                   <div className="models-div__box__img">
                     <img
-                      src={`http://localhost:8080/static/images/${car.imageUrl.split('/').pop()}`}
+                      src={`https://rentcarkg.live/static/images/${car.imageUrl.split('/').pop()}`}
                       alt={car.name}
                       onError={(e) => {
                         e.target.src = "/images/cars-big/default-car.png";
